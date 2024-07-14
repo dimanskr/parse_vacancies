@@ -161,6 +161,7 @@ cython_debug/
 .idea/
 
 # мои дополнительные настройки
-data/*
-!data/
+!data/__init__.py
+data/*.json
+
 
