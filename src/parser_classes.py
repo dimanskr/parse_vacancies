@@ -1,6 +1,8 @@
 import requests
 from abc import ABC, abstractmethod
 
+from src.mixins import ProgressBarMixin
+
 
 class Parser(ABC):
     """
@@ -14,7 +16,7 @@ class Parser(ABC):
         pass
 
 
-class HH(Parser):
+class HH(Parser, ProgressBarMixin):
     """
     Класс для работы с API HeadHunter
     """
@@ -28,11 +30,14 @@ class HH(Parser):
     def load_vacancies(self, keyword: str) -> list[dict]:
         """
         Метод загрузки вакансий с HH.ru через API
+        Отображаем процесс загрузки методом show_progress миксина ProgressBarMixin
         :param keyword: str
         :return self._vacancies: list[dict]
         """
         self._params['text'] = keyword
         while self._params.get('page') != self._pages_count:
+            if self.show_progress(self._params.get('page'), self._pages_count):
+                self.show_progress(self._params.get('page'), self._pages_count)
             response = requests.get(self._url, headers=self._headers, params=self._params, timeout=10)
             if response.status_code == 200:
                 vacancies = response.json()['items']
