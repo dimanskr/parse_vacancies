@@ -6,6 +6,9 @@ class Vacancy(CleanTagsMixin):
     """
     Класс вакансии с HH.ru
     """
+    __slots__ = (
+        '_id', '_name', '_url', '_employer', '_requirement', '_responsibility', '_salary_from', '_salary_to',
+        '_currency')
 
     def __init__(self, vacancy_id: str, name: str, url: str, employer: str, requirement: str, responsibility: str,
                  salary_from, salary_to, currency):
